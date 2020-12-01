@@ -107,3 +107,6 @@ media/
 *.pyc
 *.db
 *.pid
+
+# IDEA
+.idea/
