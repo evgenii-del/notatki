@@ -1,0 +1,27 @@
+{% block content%}
+
+<div class="container">
+
+    <h2>Notes list</h2>
+
+    <form class="form-inline" action="" method="GET">
+        {{ form }}
+        <button class="btn" type="submit">Search</button>
+        </fieldset>
+    </form>
+
+    <table class="table table-bordered table-condensed">
+        <tr>
+            <th>Title</th>
+            <th>Body</th>
+        </tr>
+        {% for object in object_list %}
+        <tr>
+            <td>{{object.title}}</td>
+            <td>{{object.body}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
