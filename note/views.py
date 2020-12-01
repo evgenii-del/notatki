@@ -10,7 +10,7 @@ class NoteListView(ListView):
     template_name = "note/main.html"
 
 
-class CreateNoteView(CreateView):
+class NoteCreateView(CreateView):
     model = Note
     form_class = NoteForm
     template_name = "note/create.html"
@@ -22,7 +22,7 @@ class CreateNoteView(CreateView):
         return reverse("notes-list")
 
 
-class NoteViewUpdate(UpdateView):
+class NoteUpdateView(UpdateView):
     model = Note
     form_class = NoteForm
     template_name = "note/update.html"
