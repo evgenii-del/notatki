@@ -1,6 +1,10 @@
 from django.views.generic import ListView, DeleteView, CreateView, UpdateView, View
+from abc import ABC
+from search_views.filters import BaseFilter
 from django.urls import reverse
-from .forms import NoteForm
+from search_views.views import SearchListView
+
+from .forms import NoteForm, NoteSearchForm
 from .models import Note
 
 
@@ -35,3 +39,20 @@ class NoteUpdateView(NoteConfigView, UpdateView):
 
 class NoteDeleteView(NoteConfigView, DeleteView):
     template_name = "note/delete.html"
+
+    def get_success_url(self):
+        return reverse("notes-list")
+
+
+class NotesFilter(BaseFilter, ABC):
+    search_fields = {
+        'search_text': ['body'],
+        'search_title': ['title'],
+    }
+
+
+class NotesSearchList(SearchListView):
+    model = Note
+    template_name = "note/notes_list.html"
+    form_class = NoteSearchForm
+    filter_class = NotesFilter
