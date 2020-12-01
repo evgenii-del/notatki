@@ -1,11 +1,10 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 
 from . import views
 
 urlpatterns = [
-    path("", views.NoteListView.as_view(), name="notes"),
-    path("create/", views.CreateNoteView.as_view()),
-    path("<int:pk>/update/", views.NoteViewUpdate.as_view(),name="update"),
-    path("<int:pk>/delete/", views.NoteDeleteView.as_view(), name="delete-note")
+    path("", views.NoteListView.as_view(), name="notes-list"),
+    path("create/", views.CreateNoteView.as_view(), name="notes-create"),
+    path("<int:pk>/update/", views.NoteViewUpdate.as_view(), name="notes-update"),
+    path("<int:pk>/delete/", views.NoteDeleteView.as_view(), name="notes-delete")
 ]
