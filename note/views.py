@@ -1,6 +1,7 @@
-from django.views.generic import ListView, CreateView, UpdateView
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DeleteView, CreateView,UpdateView
 from django.urls import reverse
-
 from .forms import NoteForm
 from .models import Note
 
@@ -33,3 +34,8 @@ class NoteViewUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse("notes")
+
+class NoteDeleteView(DeleteView):
+    model = Note
+    success_url = reverse_lazy('note-list')
+    template_name = "note/delete.html"
