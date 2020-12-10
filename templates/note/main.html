@@ -1,3 +1,26 @@
-{% for note in notes %}
-{{note.body}} <br>
-{% endfor %}
+{% extends 'wrapper.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block wrapper %}
+<h2>Notes list</h2>
+<div class="card-columns mt-5">
+    {% for object in notes %}
+    <div class="col mb-4">
+        <div class="card">
+            {% if object.image %}
+            <img src="{{ object.image.url }}" class="card-img-top" alt="{{ object.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ object.title }}</h5>
+                <p class="card-text">{{ object.body }}</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">{{ object.created }}</small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
