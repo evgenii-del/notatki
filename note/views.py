@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DeleteView, CreateView, UpdateView, View
+from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView, View
 from abc import ABC
 from search_views.filters import BaseFilter
 from django.urls import reverse
@@ -19,6 +19,12 @@ class NoteListView(ListView):
     model = Note
     context_object_name = "notes"
     template_name = "note/main.html"
+
+
+class NoteDetailView(DetailView):
+    model = Note
+    context_object_name = "note"
+    template_name = "note/detail.html"
 
 
 class NoteCreateView(NoteConfigView, CreateView):

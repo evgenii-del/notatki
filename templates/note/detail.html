@@ -1,0 +1,28 @@
+{% extends 'wrapper.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block wrapper %}
+<h2>Note - {{ note.title }}</h2>
+<div class="col mb-4">
+    <div class="card mt-5">
+        {% if object.image %}
+        <img src="{{ note.image.url }}" class="card-img-top" alt="{{ note.title }}">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{ note.title }}</h5>
+            <p class="card-text">{{ note.body }}</p>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">{{ note.created }}</small>
+                <div>
+                    <a href="{% url 'notes-update' note.id %}" class='btn btn-outline-info mr-2'>Update</a>
+                    <a href="{% url 'notes-delete' note.id %}" class='btn btn-outline-danger mr-2'>Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
