@@ -1,5 +1,4 @@
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView, View
-from abc import ABC
 from search_views.filters import BaseFilter
 from django.urls import reverse
 from search_views.views import SearchListView
@@ -50,7 +49,7 @@ class NoteDeleteView(NoteConfigView, DeleteView):
         return reverse("notes-list")
 
 
-class NotesFilter(BaseFilter, ABC):
+class NotesFilter(BaseFilter):
     search_fields = {
         'search_text': ['body'],
         'search_title': ['title'],
