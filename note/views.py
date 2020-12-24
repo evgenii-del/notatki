@@ -58,8 +58,8 @@ class NoteDeleteView(NoteConfigView, DeleteView):
 
 class NotesFilter(BaseFilter):
     search_fields = {
-        'search_text': ['body'],
-        'search_title': ['title'],
+        'search_text': ['body', 'title'],
+        #'search_title': ['title'],
     }
 
 

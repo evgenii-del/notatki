@@ -20,9 +20,9 @@
                 <div>
                     <a href="{% url 'notes-archive' note.id %}" class='btn btn-outline-danger mr-2'>
                         {% if note.archive %}
-                        Разархивировать
+                        Restore
                         {% else %}
-                        Архивировать
+                        Archive
                         {% endif %}
                     </a>
                     <a href="{% url 'notes-update' note.id %}" class='btn btn-outline-info mr-2'>Update</a>
