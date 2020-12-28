@@ -14,7 +14,7 @@
 
 <div class="card-columns mt-5">
     {% for object in object_list %}
-    {% if not object.archive %}
+    {% if object.archive %}
     <div class="col mb-4">
         <div class="card">
             {% if object.image %}
@@ -26,7 +26,7 @@
             </div>
             <div class="card-footer">
                 <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">Up: {{ object.updated|date:"d M H:i" }}</small>
+                    <small class="text-muted">{{ object.created }}</small>
                     <a class='btn btn-secondary' href="{% url 'notes-detail' object.id %}">Open</a>
                 </div>
             </div>
