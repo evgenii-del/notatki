@@ -12,6 +12,7 @@
         {% endif %}
         <div class="card-body">
             <h5 class="card-title">{{ note.title }}</h5>
+            <!--            <p class="tags">Tags: {{ note.tags.all|join:", " }}</p>-->
             <p class="card-text">{{ note.body }}</p>
         </div>
         <div class="card-footer">
@@ -27,6 +28,15 @@
                     </a>
                     <a href="{% url 'notes-update' note.id %}" class='btn btn-outline-info mr-2'>Update</a>
                     <a href="{% url 'notes-delete' note.id %}" class='btn btn-outline-danger mr-2'>Delete</a>
+                    <a href="{% url 'notes-favorite' note.id %}" class='btn btn-outline-info mr-2'>
+                        {% if note.favorite %}
+                        Unfavorite
+                        {% else %}
+                        Favorite
+                        {% endif %}
+                    </a>
+
+
                 </div>
             </div>
         </div>
