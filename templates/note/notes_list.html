@@ -10,6 +10,16 @@
     {{ form|crispy }}
     <button class="btn" type="submit">Search</button>
 </form>
+<div class="panel-body">
+    <ul>
+        {% for tag in tags %}
+        <li><a href="{% url 'tagged' tag.slug %}">{{tag.name}}</a></li>
+        {% empty %}
+        <li>No tags</li>
+        {% endfor %}
+
+    </ul>
+</div>
 
 
 <div class="card-columns mt-5">
@@ -28,7 +38,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <small class="text-muted">Up: {{ object.updated|date:"d M H:i" }}</small>
                     <a class='btn btn-secondary' href="{% url 'notes-detail' object.id %}">Open</a>
-                     <a href="{% url 'notes-favorite' object.id  %}" class='btn btn-outline-info mr-2'>
+                    <a href="{% url 'notes-favorite' object.id  %}" class='btn btn-outline-info mr-2'>
                         {% if object.favorite %}
                         Unfavorite
                         {% else %}

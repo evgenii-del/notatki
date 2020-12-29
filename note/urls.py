@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views
 
@@ -14,4 +14,5 @@ urlpatterns = [
     path("favorites/", views.NoteFavoritesListView.as_view(), name="notes-favorites"),
     path("createfolder/", views.FolderCreateView.as_view(), name="folder-create"),
     path("folders/", views.FolderSearchList.as_view(), name="folders-list"),
+    re_path(r'^tag/(?P<slug>[-\w]+)/$', views.TagIndexView.as_view(),name='tagged')
 ]

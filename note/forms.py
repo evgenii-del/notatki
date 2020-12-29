@@ -1,14 +1,11 @@
 from django import forms
-# from taggit.forms import TagField
 from .models import Note, Folder
 
 
 class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ('title', 'body', 'image')
-
-    # tags = TagField(label="tags")
+        fields = ('title', 'tags', 'body', 'image')
 
 class FolderForm(forms.ModelForm):
     class Meta:
@@ -28,9 +25,11 @@ class NoteSearchForm(forms.Form):
     ]
     sort_notes = forms.ChoiceField(choices=CHOICES)
 
+    
 class FolderSearchForm(forms.Form):
     search_text = forms.CharField(
         required=False,
         label='',
         widget=forms.TextInput(attrs={'placeholder': 'Search by title'})
     )
+    
