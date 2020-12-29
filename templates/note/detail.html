@@ -14,7 +14,6 @@
             <h5 class="card-title">{{ note.title }}</h5>
             {% for tag in note.tags.all %}
             <a href="http://127.0.0.1:8000/notes/tag/{{tag}}/">#{{tag}}</a>
-<!--            <p class="tags">Tags: #{{ note.tags.all|join:", #" }}</p>-->
             {% endfor %}
             <p class="card-text">{{ note.body }}</p>
 
@@ -39,8 +38,6 @@
                         Favorite
                         {% endif %}
                     </a>
-
-
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@
 
 
 {% block wrapper %}
-<h2>Update</h2>
+<h2 class="mb-5">Update</h2>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}

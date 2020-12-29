@@ -1,16 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView, View
 from search_views.filters import BaseFilter
-from django_filters import FilterSet, ChoiceFilter
 from django.urls import reverse
 from search_views.views import SearchListView
-from .forms import NoteForm, NoteSearchForm, FolderForm, FolderSearchForm
-from .models import Note, Folder
-from django_filters import FilterSet
 from taggit.models import Tag
-from datetime import datetime, timedelta
+from .models import Note, Folder
 from .forms import NoteForm, NoteSearchForm, FolderForm, FolderSearchForm
-from django_filters import FilterSet
 
 
 class TagMixin(object):
@@ -69,20 +64,6 @@ class NoteDeleteView(NoteConfigView, DeleteView):
         return reverse("notes-list")
 
 
-class NotesFilter(BaseFilter):
-    search_fields = {
-        'search_text': ['body', 'title'],
-        # 'search_title': ['title'],
-    }
-
-
-class NotesSearchList(SearchListView):
-    model = Note
-    template_name = "note/notes_list.html"
-    form_class = NoteSearchForm
-    filter_class = NotesFilter
-
-
 class ArchiveNotes(View):
     def get(self, request, pk):
         note = Note.objects.get(pk=pk)
@@ -107,65 +88,33 @@ class NoteFavoritesListView(ListView):
     template_name = "note/favorites.html"
 
 
-class NoteListFilter(ListView):
+class NotesFilter(BaseFilter):
+    search_fields = {
+        'search_text': ['body', 'title'],
+    }
+
+
+class NotesSearchList(SearchListView):
     model = Note
+    template_name = "note/notes_list.html"
     form_class = NoteSearchForm
     filter_class = NotesFilter
 
-    def news_filter(self, request, pk):
-        news = Note.objects.all()
-        if pk == 1:
-            now = datetime.now() - timedelta(minutes=60 * 24 * 7)
-            news = news.filter(created__gte=now)
-        elif pk == 2:
-            now = datetime.now() - timedelta(minutes=60 * 24 * 30)
-            news = news.filter(created__gte=now)
-        elif pk == 3:
-            news = news
-
-        return render(request, "note/notes_list.html", {"news": news})
-
-
-class PostFilter(FilterSet):
-    class Meta:
-        model = Note
-        fields = ['created']
-
-    def filter_by_order(self, queryset, value):
-        expression = 'created' if value == 'newToold' else '-created'
-        return queryset.order_by(expression)
-
 
 class PostFilterView(NoteListView):
     model = Note
-    form_class = NoteSearchForm
-    filter_class = PostFilter
     template_name = "note/notes_list.html"
 
-
-class TagIndexView(TagMixin, ListView):
-    template_name = 'note/notes_list.html'
-    model = Note
-    context_object_name = 'notes'
-
     def get_queryset(self):
-        return Note.objects.filter(tags__slug=self.kwargs.get("slug"))
+        print(self.kwargs["pk"])
+        if self.kwargs["pk"] == 1:
+            return Note.objects.all().order_by("-created")
+        elif self.kwargs["pk"] == 2:
+            return Note.objects.all().order_by("created")
 
 
-class PostFilter(FilterSet):
-    class Meta:
-        model = Note
-        fields = ['created']
-
-    def filter_by_order(self, queryset, value):
-        expression = 'created' if value == 'newToold' else '-created'
-        return queryset.order_by(expression)
-
-
-class PostFilterView(NoteListView):
+class NoteSortByDate(ListView):
     model = Note
-    form_class = NoteSearchForm
-    filter_class = PostFilter
     template_name = "note/notes_list.html"
 
 
