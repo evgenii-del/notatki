@@ -1,5 +1,5 @@
 from django.urls import reverse
-
+from taggit.managers import TaggableManager
 from django.db import models
 
 
@@ -10,6 +10,8 @@ class Note(models.Model):
     updated = models.DateTimeField("updated", blank=True, null=True)
     image = models.ImageField("image", upload_to="images", blank=True)
     archive = models.BooleanField("archive", default=False)
+    favorite = models.BooleanField("favorite", default=False)
+    tags = TaggableManager(blank=True, verbose_name="tags")
 
     def __str__(self):
         return self.title

@@ -28,6 +28,13 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <small class="text-muted">Up: {{ object.updated|date:"d M H:i" }}</small>
                     <a class='btn btn-secondary' href="{% url 'notes-detail' object.id %}">Open</a>
+                     <a href="{% url 'notes-favorite' object.id  %}" class='btn btn-outline-info mr-2'>
+                        {% if object.favorite %}
+                        Unfavorite
+                        {% else %}
+                        Favorite
+                        {% endif %}
+                    </a>
                 </div>
             </div>
         </div>

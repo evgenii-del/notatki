@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView, View
 from search_views.filters import BaseFilter
-from django.views.generic import ListView, DeleteView, CreateView, UpdateView
 from django.urls import reverse
-from .forms import NoteForm
+from search_views.views import SearchListView
+from .forms import NoteForm, NoteSearchForm
 from .models import Note
+
+
+# from taggit.models import Tag
 
 
 class NoteConfigView(View):
@@ -39,8 +42,6 @@ class NoteCreateView(NoteConfigView, CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse("notes-list")
 
 class NoteUpdateView(NoteConfigView, UpdateView):
     form_class = NoteForm
@@ -49,8 +50,6 @@ class NoteUpdateView(NoteConfigView, UpdateView):
     def form_valid(self, form):
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse("notes-list")
 
 class NoteDeleteView(NoteConfigView, DeleteView):
     template_name = "note/delete.html"
@@ -62,7 +61,7 @@ class NoteDeleteView(NoteConfigView, DeleteView):
 class NotesFilter(BaseFilter):
     search_fields = {
         'search_text': ['body', 'title'],
-        #'search_title': ['title'],
+        # 'search_title': ['title'],
     }
 
 
@@ -80,3 +79,18 @@ class ArchiveNotes(View):
         note.archive = not is_archive
         note.save()
         return redirect(note.get_absolute_url())
+
+
+class FavoriteNotes(View):
+    def get(self, request, pk):
+        note = Note.objects.get(pk=pk)
+        is_favorite = note.favorite
+        note.favorite = not is_favorite
+        note.save()
+        return redirect(note.get_absolute_url())
+
+
+class NoteFavoritesListView(ListView):
+    model = Note
+    context_object_name = "notes"
+    template_name = "note/favorites.html"

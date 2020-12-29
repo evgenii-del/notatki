@@ -4,12 +4,18 @@
 
 
 {% block wrapper %}
-<h2>Notes list in Archive</h2>
+<h2>Notes list in Favorites</h2>
+
+<!--<form class="form-inline" action="" method="GET">-->
+<!--    {{ form|crispy }}-->
+<!--&lt;!&ndash;    <button class="btn" type="submit">Search</button>&ndash;&gt;-->
+<!--</form>-->
 
 
 <div class="card-columns mt-5">
+
     {% for object in object_list %}
-    {% if object.archive %}
+    {% if object.favorite %}
     <div class="col mb-4">
         <div class="card">
             {% if object.image %}
@@ -29,5 +35,7 @@
     </div>
     {% endif %}
     {% endfor %}
+
+
 </div>
 {% endblock %}
