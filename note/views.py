@@ -130,6 +130,7 @@ class FolderConfigView(View):
     def get_success_url(self):
         return reverse("folders-list")
 
+
 class FolderCreateView(FolderConfigView, CreateView):
     form_class = FolderForm
     template_name = "folder/create.html"
@@ -150,7 +151,7 @@ class FolderSearchList(SearchListView):
     form_class = FolderSearchForm
     filter_class = FolderFilter
 
-    
+
 class TagIndexView(TagMixin, ListView):
     template_name = 'note/notes_list.html'
     model = Note
