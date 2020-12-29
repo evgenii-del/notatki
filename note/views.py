@@ -197,6 +197,8 @@ class FolderSearchList(SearchListView):
     filter_class = FolderFilter
 
 
+class AddNoteToFolder:()
+
 class TagIndexView(TagMixin, ListView):
     template_name = 'note/notes_list.html'
     model = Note
