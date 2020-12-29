@@ -23,7 +23,8 @@
             <div class="card-body">
                 <h5 class="card-title">{{ object.title }}</h5>
                 {% for object in object.note.all %}
-                <p>{{object}}</p>
+                <a href="{% url 'notes-detail' object.id %}">{{object}}</a>
+
                 {% endfor %}
             </div>
             <div class="card-footer">

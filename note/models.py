@@ -21,7 +21,7 @@ class Note(models.Model):
 
 
 class Folder(models.Model):
-    note = models.ManyToManyField(Note,  related_name='notatka')
+    note = models.ManyToManyField(Note,related_name='notatka')
     title = models.CharField("title", max_length=200)
     created = models.DateTimeField("created", auto_now_add=True)
     icon = models.ImageField("image", upload_to="images", blank=True)
