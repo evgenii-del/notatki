@@ -3,9 +3,9 @@ from django.views.generic import ListView, DetailView, DeleteView, CreateView, U
 from search_views.filters import BaseFilter
 from django.urls import reverse
 from search_views.views import SearchListView
-from .forms import NoteForm, NoteSearchForm
-from .models import Note
-from django_filters import  FilterSet
+from .forms import NoteForm, NoteSearchForm, FolderForm, FolderSearchForm
+from .models import Note, Folder
+from django_filters import FilterSet
 
 
 # from taggit.models import Tag
@@ -106,8 +106,41 @@ class PostFilter(FilterSet):
         expression = 'created' if value == 'newToold' else '-created'
         return queryset.order_by(expression)
 
+
 class PostFilterView(NoteListView):
     model = Note
     form_class = NoteSearchForm
     filter_class = PostFilter
     template_name = "note/notes_list.html"
+
+
+
+
+
+
+
+class FolderConfigView(View):
+    model = Folder
+
+    def get_success_url(self):
+        return reverse("folders-list")
+
+class FolderCreateView(FolderConfigView, CreateView):
+    form_class = FolderForm
+    template_name = "folder/create.html"
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class FolderFilter(BaseFilter):
+    search_fields = {
+        'search_text': ['title'],
+        # 'search_title': ['title'],
+    }
+
+class FolderSearchList(SearchListView):
+    model = Folder
+    template_name = "folder/folders_list.html"
+    form_class = FolderSearchForm
+    filter_class = FolderFilter
