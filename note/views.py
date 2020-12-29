@@ -4,13 +4,12 @@ from search_views.filters import BaseFilter
 from django_filters import FilterSet, ChoiceFilter
 from django.urls import reverse
 from search_views.views import SearchListView
-from taggit.models import Tag
-
-from .forms import NoteForm, NoteSearchForm
-from .models import Note
-from datetime import datetime, timedelta
 from .forms import NoteForm, NoteSearchForm, FolderForm, FolderSearchForm
 from .models import Note, Folder
+from django_filters import FilterSet
+from taggit.models import Tag
+from datetime import datetime, timedelta
+from .forms import NoteForm, NoteSearchForm, FolderForm, FolderSearchForm
 from django_filters import FilterSet
 
 
@@ -170,11 +169,6 @@ class PostFilterView(NoteListView):
     template_name = "note/notes_list.html"
 
 
-
-
-
-
-
 class FolderConfigView(View):
     model = Folder
 
@@ -191,12 +185,21 @@ class FolderCreateView(FolderConfigView, CreateView):
 
 class FolderFilter(BaseFilter):
     search_fields = {
-        'search_text': ['title'],
-        # 'search_title': ['title'],
+        'search_text': ['title']
     }
+
 
 class FolderSearchList(SearchListView):
     model = Folder
     template_name = "folder/folders_list.html"
     form_class = FolderSearchForm
     filter_class = FolderFilter
+
+
+class TagIndexView(TagMixin, ListView):
+    template_name = 'note/notes_list.html'
+    model = Note
+    context_object_name = 'notes'
+
+    def get_queryset(self):
+        return Note.objects.filter(tags__slug=self.kwargs.get("slug"))
