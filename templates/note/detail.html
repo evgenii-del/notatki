@@ -12,8 +12,12 @@
         {% endif %}
         <div class="card-body">
             <h5 class="card-title">{{ note.title }}</h5>
-            <p class="tags">Tags: #{{ note.tags.all|join:", #" }}</p>
+            {% for tag in note.tags.all %}
+            <a href="http://127.0.0.1:8000/notes/tag/{{tag}}/">#{{tag}}</a>
+<!--            <p class="tags">Tags: #{{ note.tags.all|join:", #" }}</p>-->
+            {% endfor %}
             <p class="card-text">{{ note.body }}</p>
+
         </div>
         <div class="card-footer">
             <div class="d-flex justify-content-between align-items-center">
