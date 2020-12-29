@@ -12,4 +12,5 @@ urlpatterns = [
     path("", views.NotesSearchList.as_view(), name="notes-list"),
     path("<int:pk>/favorite/", views.FavoriteNotes.as_view(), name="notes-favorite"),
     path("favorites/", views.NoteFavoritesListView.as_view(), name="notes-favorites"),
+
 ]
