@@ -13,11 +13,10 @@
 <div class="panel-body">
     <ul>
         {% for tag in tags %}
-        <li><a href="{% url 'tagged' tag.slug %}">{{tag.name}}</a></li>
-        {% empty %}
-        <li>No tags</li>
-        {% endfor %}
+        <li><a href="{% url 'tagged' tag.slug %}">#{{tag.name}}</a></li>
 
+        <!--        <li>No tags</li> -->
+        {% endfor %}
     </ul>
 </div>
 

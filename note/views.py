@@ -175,6 +175,7 @@ class FolderConfigView(View):
     def get_success_url(self):
         return reverse("folders-list")
 
+
 class FolderCreateView(FolderConfigView, CreateView):
     form_class = FolderForm
     template_name = "folder/create.html"
