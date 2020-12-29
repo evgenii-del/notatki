@@ -20,3 +20,13 @@ class Note(models.Model):
         return reverse('notes-detail', kwargs={'pk': self.pk})
 
 
+class Folder(models.Model):
+    note = models.ManyToManyField(Note,  related_name='notatka')
+    title = models.CharField("title", max_length=200)
+    created = models.DateTimeField("created", auto_now_add=True)
+    icon = models.ImageField("image", upload_to="images", blank=True)
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['title']

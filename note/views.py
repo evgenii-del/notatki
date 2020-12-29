@@ -4,8 +4,10 @@ from search_views.filters import BaseFilter
 from django_filters import FilterSet, ChoiceFilter
 from django.urls import reverse
 from search_views.views import SearchListView
+from .forms import NoteForm, NoteSearchForm, FolderForm, FolderSearchForm
+from .models import Note, Folder
+from django_filters import FilterSet
 from taggit.models import Tag
-
 from .forms import NoteForm, NoteSearchForm
 from .models import Note
 from datetime import datetime, timedelta
@@ -105,25 +107,6 @@ class NoteFavoritesListView(ListView):
     template_name = "note/favorites.html"
 
 
-class NoteListFilter(ListView):
-    model = Note
-    form_class = NoteSearchForm
-    filter_class = NotesFilter
-
-    def news_filter(self, request, pk):
-        news = Note.objects.all()
-        if pk == 1:
-            now = datetime.now() - timedelta(minutes=60 * 24 * 7)
-            news = news.filter(created__gte=now)
-        elif pk == 2:
-            now = datetime.now() - timedelta(minutes=60 * 24 * 30)
-            news = news.filter(created__gte=now)
-        elif pk == 3:
-            news = news
-
-        return render(request, "note/notes_list.html", {"news": news})
-
-
 class PostFilter(FilterSet):
     class Meta:
         model = Note
@@ -141,6 +124,33 @@ class PostFilterView(NoteListView):
     template_name = "note/notes_list.html"
 
 
+class FolderConfigView(View):
+    model = Folder
+
+    def get_success_url(self):
+        return reverse("folders-list")
+
+class FolderCreateView(FolderConfigView, CreateView):
+    form_class = FolderForm
+    template_name = "folder/create.html"
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class FolderFilter(BaseFilter):
+    search_fields = {
+        'search_text': ['title']
+    }
+
+
+class FolderSearchList(SearchListView):
+    model = Folder
+    template_name = "folder/folders_list.html"
+    form_class = FolderSearchForm
+    filter_class = FolderFilter
+
+    
 class TagIndexView(TagMixin, ListView):
     template_name = 'note/notes_list.html'
     model = Note
