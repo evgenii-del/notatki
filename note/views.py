@@ -9,6 +9,9 @@ from taggit.models import Tag
 from .forms import NoteForm, NoteSearchForm
 from .models import Note
 from datetime import datetime, timedelta
+from .forms import NoteForm, NoteSearchForm, FolderForm, FolderSearchForm
+from .models import Note, Folder
+from django_filters import FilterSet
 
 
 class TagMixin(object):
@@ -148,3 +151,52 @@ class TagIndexView(TagMixin, ListView):
 
     def get_queryset(self):
         return Note.objects.filter(tags__slug=self.kwargs.get("slug"))
+
+
+class PostFilter(FilterSet):
+    class Meta:
+        model = Note
+        fields = ['created']
+
+    def filter_by_order(self, queryset, value):
+        expression = 'created' if value == 'newToold' else '-created'
+        return queryset.order_by(expression)
+
+
+class PostFilterView(NoteListView):
+    model = Note
+    form_class = NoteSearchForm
+    filter_class = PostFilter
+    template_name = "note/notes_list.html"
+
+
+
+
+
+
+
+class FolderConfigView(View):
+    model = Folder
+
+    def get_success_url(self):
+        return reverse("folders-list")
+
+class FolderCreateView(FolderConfigView, CreateView):
+    form_class = FolderForm
+    template_name = "folder/create.html"
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class FolderFilter(BaseFilter):
+    search_fields = {
+        'search_text': ['title'],
+        # 'search_title': ['title'],
+    }
+
+class FolderSearchList(SearchListView):
+    model = Folder
+    template_name = "folder/folders_list.html"
+    form_class = FolderSearchForm
+    filter_class = FolderFilter
