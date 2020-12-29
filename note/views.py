@@ -115,7 +115,7 @@ class NoteListFilter(ListView):
             news = news.filter(created__gte=now)
         elif pk == 3:
             news = news
-
+#hfhfjfjfjfjfj
         return render(request, "note/notes_list.html", {"news": news})
 
 
