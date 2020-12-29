@@ -5,6 +5,7 @@ from django.urls import reverse
 from search_views.views import SearchListView
 from .forms import NoteForm, NoteSearchForm
 from .models import Note
+from django_filters import  FilterSet
 
 
 # from taggit.models import Tag
@@ -94,3 +95,19 @@ class NoteFavoritesListView(ListView):
     model = Note
     context_object_name = "notes"
     template_name = "note/favorites.html"
+
+
+class PostFilter(FilterSet):
+    class Meta:
+        model = Note
+        fields = ['created']
+
+    def filter_by_order(self, queryset, value):
+        expression = 'created' if value == 'newToold' else '-created'
+        return queryset.order_by(expression)
+
+class PostFilterView(NoteListView):
+    model = Note
+    form_class = NoteSearchForm
+    filter_class = PostFilter
+    template_name = "note/notes_list.html"
