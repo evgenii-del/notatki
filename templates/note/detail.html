@@ -12,7 +12,7 @@
         {% endif %}
         <div class="card-body">
             <h5 class="card-title">{{ note.title }}</h5>
-            <!--            <p class="tags">Tags: {{ note.tags.all|join:", " }}</p>-->
+            <p class="tags">Tags: {{ note.tags.all|join:", " }}</p>
             <p class="card-text">{{ note.body }}</p>
         </div>
         <div class="card-footer">

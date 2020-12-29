@@ -6,10 +6,7 @@ from .models import Note
 class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ('title', 'body', 'image')
-
-    # tags = TagField(label="tags")
-
+        fields = ('title', 'tags', 'body', 'image')
 
 
 class NoteSearchForm(forms.Form):
@@ -18,8 +15,9 @@ class NoteSearchForm(forms.Form):
         label='',
         widget=forms.TextInput(attrs={'placeholder': 'Search by title or content'})
     )
-    CHOICES = [
-        ('oldTonew', 'To new'),
-        ('newToold', 'To old'),
-    ]
-    sort_notes = forms.ChoiceField(choices=CHOICES)
+
+    # CHOICES = [
+    #     ('oldTonew', 'To new'),
+    #     ('newToold', 'To old'),
+    # ]
+    # sort_notes = forms.ChoiceField(choices=CHOICES)
